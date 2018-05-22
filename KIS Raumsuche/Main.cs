@@ -438,7 +438,8 @@ namespace TUK_Raumsuche
                 {
                     clb_item i = new clb_item();
                     i.value = group;
-                    i.display = WebUtility.UrlDecode(group);
+                    // you need to specify Encoding.Default because else it defaults to UTF-8 (obviously ^^)
+                    i.display = HttpUtility.UrlDecode(group, Encoding.Default); // WebUtility.UrlDecode(group);
                     clb_roomGroups.Items.Add(i, true);
                 }
             }));
@@ -447,7 +448,7 @@ namespace TUK_Raumsuche
 
             foreach (String roomGroup in roomGroups)
             {
-                status = "Checking room group: " + roomGroup;
+                status = "Checking room group: " + HttpUtility.UrlDecode(roomGroup, Encoding.Default);
                 List<Room> r = getRooms(roomGroup);
                 allRooms.AddRange(r);
             }
