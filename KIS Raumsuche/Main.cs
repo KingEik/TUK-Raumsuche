@@ -108,6 +108,7 @@ namespace TUK_Raumsuche
                 }
 
                 Thread t = new Thread(new ParameterizedThreadStart(thread_room));
+                t.SetApartmentState(ApartmentState.STA);
                 t.IsBackground = true;
                 t.Start(room);
                 threads.Add(t);
@@ -149,7 +150,25 @@ namespace TUK_Raumsuche
             List<String> roomGroups = new List<String>();
 
             HtmlWeb web = new HtmlWeb();
-            HtmlAgilityPack.HtmlDocument doc = web.Load(baseUri);
+            // my firefox: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101 Firefox/60.0
+            // html agility pack: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:x.x.x) Gecko/20041107 Firefox/x.x
+            HtmlAgilityPack.HtmlDocument doc;
+            try
+            {
+                //doc = web.Load(baseUri);
+                doc = web.LoadFromBrowser(baseUri.ToString());
+            }
+            catch (Exception e)
+            {
+                Logger.error("getRoomGroups failed!");
+                while (e != null)
+                {
+                    Program.logExeption(e);
+                    e = e.InnerException;
+                }
+                return null;
+            }
+            
             /*HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
             doc.LoadHtml(sendRequest(baseUri, null));*/
 
@@ -180,10 +199,10 @@ namespace TUK_Raumsuche
 
             List<Room> rooms = new List<Room>();
 
-            /*HtmlWeb web = new HtmlWeb();
-            HtmlAgilityPack.HtmlDocument doc = web.Load(baseUri);*/
-            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-            doc.LoadHtml(sendRequest(baseUri, null));
+            HtmlWeb web = new HtmlWeb();
+            HtmlAgilityPack.HtmlDocument doc = web.LoadFromBrowser(baseUri.ToString()); // web.Load(baseUri);
+            /*HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(sendRequest(baseUri, null));*/
 
             List<HtmlNode> tables = 
                 doc.DocumentNode.Descendants("table")
@@ -252,7 +271,7 @@ namespace TUK_Raumsuche
             List<String> roomGroups = new List<String>();
 
             HtmlWeb web = new HtmlWeb();
-            HtmlAgilityPack.HtmlDocument doc = web.Load(baseUri);
+            HtmlAgilityPack.HtmlDocument doc = web.LoadFromBrowser(baseUri.ToString()); // web.Load(baseUri);
             /*HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
             doc.LoadHtml(sendRequest(baseUri, null));*/
 
@@ -386,6 +405,7 @@ namespace TUK_Raumsuche
             if (search_worker != null && search_worker.IsAlive) return;
 
             search_worker = new Thread(new ThreadStart(thread_setup));
+            search_worker.SetApartmentState(ApartmentState.STA);
             search_worker.IsBackground = true;
             search_worker.Start();
         }
@@ -400,6 +420,17 @@ namespace TUK_Raumsuche
             }));
 
             List<String> roomGroups = getRoomGroups();
+
+            if (roomGroups == null)
+            {
+                btn_setup.BeginInvoke(new MethodInvoker(() =>
+                {
+                    btn_setup.Show();
+                }));
+
+                status = "Failed!";
+                return;
+            }
 
             clb_roomGroups.BeginInvoke(new MethodInvoker(() =>
             {

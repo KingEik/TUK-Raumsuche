@@ -33,7 +33,7 @@ namespace TUK_Raumsuche
             logExeption(exception);
         }
 
-        private static void logExeption(Exception e)
+        public static void logExeption(Exception e)
         {
             Logger.error(e.GetType().Name, e.Message, e.StackTrace);
         }
