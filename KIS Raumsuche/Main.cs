@@ -250,7 +250,15 @@ namespace TUK_Raumsuche
         private void thread_room(object room)
         {
             Room r = (Room)room;
-            r.free = isRoomFree(r);
+            try
+            {
+                r.free = isRoomFree(r);
+            }
+            catch (Exception e)
+            {
+                Program.logExeption(e);
+                r.free = false;
+            }
             if (r.free)
             {
                 dgv_results.BeginInvoke(new MethodInvoker(() =>
@@ -262,6 +270,7 @@ namespace TUK_Raumsuche
             {
                 pb_search.Value++;
             }));
+            //Logger.debug("Room " + r.name + " (" + r.oid + ") in " + r.group + " with " + r.places + " places is " + (r.free ? "FREE" : "NOT free") + " @ " + begin.ToString() + "!");
         }
 
         private bool isRoomFree(Room room)
@@ -284,7 +293,7 @@ namespace TUK_Raumsuche
             List<HtmlNode> header = contents.Where(
                 x =>
                 {
-                    String[] styles = x.GetAttributeValue("style", "").Replace(" ", "").Split(';');
+                    String[] styles = x.GetAttributeValue("style", "").Replace(" ", "").ToLower().Split(';');
 
                     foreach (String style in styles)
                     {
@@ -324,7 +333,7 @@ namespace TUK_Raumsuche
             List<HtmlNode> units = contents.Where(
                 x =>
                 {
-                    String[] styles = x.GetAttributeValue("style", "").Replace(" ", "").Split(';');
+                    String[] styles = x.GetAttributeValue("style", "").Replace(" ", "").ToLower().Split(';');
 
                     foreach (String style in styles)
                     {

@@ -38,13 +38,13 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btn_search = new System.Windows.Forms.Button();
             this.dgv_results = new System.Windows.Forms.DataGridView();
+            this.room_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.room_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.places = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pb_search = new System.Windows.Forms.ProgressBar();
             this.lbl_status = new System.Windows.Forms.Label();
             this.timer_status = new System.Windows.Forms.Timer(this.components);
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.room_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.room_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.places = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clb_roomGroups = new System.Windows.Forms.CheckedListBox();
             this.btn_setup = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_results)).BeginInit();
@@ -65,6 +65,7 @@
             this.dtp_startTime.ShowUpDown = true;
             this.dtp_startTime.Size = new System.Drawing.Size(103, 20);
             this.dtp_startTime.TabIndex = 1;
+            this.dtp_startTime.Value = new System.DateTime(2018, 6, 13, 10, 0, 0, 0);
             // 
             // dtp_endTime
             // 
@@ -74,6 +75,7 @@
             this.dtp_endTime.ShowUpDown = true;
             this.dtp_endTime.Size = new System.Drawing.Size(103, 20);
             this.dtp_endTime.TabIndex = 2;
+            this.dtp_endTime.Value = new System.DateTime(2018, 6, 13, 12, 0, 0, 0);
             // 
             // label1
             // 
@@ -131,6 +133,25 @@
             this.dgv_results.TabIndex = 7;
             this.dgv_results.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_results_CellContentClick);
             // 
+            // room_id
+            // 
+            this.room_id.HeaderText = "ID";
+            this.room_id.Name = "room_id";
+            this.room_id.ReadOnly = true;
+            this.room_id.Visible = false;
+            // 
+            // room_name
+            // 
+            this.room_name.HeaderText = "Name";
+            this.room_name.Name = "room_name";
+            this.room_name.ReadOnly = true;
+            // 
+            // places
+            // 
+            this.places.HeaderText = "Sitzplätze";
+            this.places.Name = "places";
+            this.places.ReadOnly = true;
+            // 
             // pb_search
             // 
             this.pb_search.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -167,25 +188,6 @@
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "About";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-            // 
-            // room_id
-            // 
-            this.room_id.HeaderText = "ID";
-            this.room_id.Name = "room_id";
-            this.room_id.ReadOnly = true;
-            this.room_id.Visible = false;
-            // 
-            // room_name
-            // 
-            this.room_name.HeaderText = "Name";
-            this.room_name.Name = "room_name";
-            this.room_name.ReadOnly = true;
-            // 
-            // places
-            // 
-            this.places.HeaderText = "Sitzplätze";
-            this.places.Name = "places";
-            this.places.ReadOnly = true;
             // 
             // clb_roomGroups
             // 
